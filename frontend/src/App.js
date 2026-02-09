@@ -14,7 +14,7 @@ function App() {
     const [editDescription, setEditDescription] = useState('');
 
     // Use environment variable for API URL, or default to localhost
-    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api/tasks';
+    const API_URL = process.env.REACT_APP_API_URL || 'https://task-manager-backend-y1t0.onrender.com/api/tasks';
     console.log("DEBUG: Current API_URL is:", API_URL);
 
     // --- API Functions ---
