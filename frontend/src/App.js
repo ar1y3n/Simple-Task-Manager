@@ -26,6 +26,45 @@ function App() {
     // Function to add a new task
     const [error, setError] = useState('');
 
+    const [editingId, setEditingId] = useState(null);
+    const [editTitle, setEditTitle] = useState('');
+    const [editDescription, setEditDescription] = useState('');
+
+    const startEditing = (task) => {
+        setEditingId(task.id);
+        setEditTitle(task.title);
+        setEditDescription(task.description);
+    };
+
+    const cancelEdit = () => {
+        setEditingId(null);
+        setEditTitle('');
+        setEditDescription('');
+    };
+
+    const saveEdit = async (id) => {
+        const currentTask = tasks.find(t => t.id === id);
+        try {
+            const response = await fetch(`http://localhost:8080/api/tasks/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    title: editTitle, 
+                    description: editDescription, 
+                    done: currentTask.done 
+                }),
+            });
+            
+            if (!response.ok) throw new Error("Failed to update");
+            
+            cancelEdit();
+            fetchTasks(); 
+        } catch (error) {
+            console.error("Error updating task:", error);
+            setError("Failed to save changes. Try again.");
+        }
+    };
+
     // Function to add a new task
     const addTask = async (e) => {
         e.preventDefault(); // Stop page refresh
@@ -144,21 +183,49 @@ function App() {
 
                 {tasks.map((task) => (
                     <div key={task.id} className={`task-card ${task.done ? 'done' : ''}`}>
-                        <div className="task-info">
-                            <h3>{task.title}</h3>
-                            <p>{task.description}</p>
-                        </div>
-                        <div className="task-actions">
-                            <button
-                                onClick={() => toggleDone(task)}
-                                className={`done-btn ${task.done ? 'undo' : ''}`}
-                            >
-                                {task.done ? 'Undo' : 'Done'}
-                            </button>
-                            <button onClick={() => deleteTask(task.id)} className="delete-btn">
-                                Delete
-                            </button>
-                        </div>
+                        {editingId === task.id ? (
+                            // --- EDIT MODE ---
+                            <>
+                                <div className="task-info">
+                                    <input 
+                                        className="edit-input" 
+                                        value={editTitle} 
+                                        onChange={(e) => setEditTitle(e.target.value)} 
+                                        autoFocus
+                                    />
+                                    <input 
+                                        className="edit-input" 
+                                        value={editDescription} 
+                                        onChange={(e) => setEditDescription(e.target.value)} 
+                                        placeholder="Description"
+                                    />
+                                </div>
+                                <div className="task-actions">
+                                    <button onClick={() => saveEdit(task.id)} className="save-btn">💾 Save</button>
+                                    <button onClick={cancelEdit} className="cancel-btn">❌ Cancel</button>
+                                </div>
+                            </>
+                        ) : (
+                            // --- VIEW MODE ---
+                            <>
+                                <div className="task-info">
+                                    <h3>{task.title}</h3>
+                                    <p>{task.description}</p>
+                                </div>
+                                <div className="task-actions">
+                                    <button onClick={() => startEditing(task)} className="edit-btn">✏️ Edit</button>
+                                    <button 
+                                        onClick={() => toggleDone(task)} 
+                                        className={`done-btn ${task.done ? 'undo' : ''}`}
+                                    >
+                                        {task.done ? 'Undo' : 'Done'}
+                                    </button>
+                                    <button onClick={() => deleteTask(task.id)} className="delete-btn">
+                                        Delete
+                                    </button>
+                                </div>
+                            </>
+                        )}
                     </div>
                 ))}
             </div>

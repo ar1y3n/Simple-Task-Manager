@@ -118,6 +118,17 @@ header {
   color: #666;
 }
 
+/* Edit Mode Styling */
+.edit-input {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+}
+
 .task-actions {
   display: flex;
   gap: 10px;
@@ -129,6 +140,10 @@ button {
   border-radius: 4px;
   padding: 8px 12px;
 }
+
+.edit-btn { background-color: #f39c12; color: white; }
+.save-btn { background-color: #27ae60; color: white; }
+.cancel-btn { background-color: #95a5a6; color: white; }
 
 .done-btn {
   background-color: #3498db;
