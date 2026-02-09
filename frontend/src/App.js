@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 
 function App() {
@@ -16,14 +16,10 @@ function App() {
     // Use environment variable for API URL, or default to localhost
     const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api/tasks';
 
-    // useEffect runs once when the page loads
-    useEffect(() => {
-        fetchTasks();
-    }, [fetchTasks]);
-
     // --- API Functions ---
 
-    const fetchTasks = async () => {
+    // Define fetchTasks BEFORE useEffect
+    const fetchTasks = useCallback(async () => {
         try {
             const response = await fetch(API_URL);
             const data = await response.json();
@@ -31,7 +27,12 @@ function App() {
         } catch (error) {
             console.error("Error fetching tasks:", error);
         }
-    };
+    }, [API_URL]);
+
+    // useEffect runs once when the page loads, now depends on fetchTasks
+    useEffect(() => {
+        fetchTasks();
+    }, [fetchTasks]);
 
     const addTask = async (e) => {
         e.preventDefault();
