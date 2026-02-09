@@ -1,0 +1,38 @@
+# --- Frontend (React) ---
+# Dependencies (Heavy! Do not upload)
+**/node_modules/
+# Production build output
+**/build/
+# Local environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# --- Backend (Spring Boot) ---
+# Compiled bytecode (Heavy! Do not upload)
+**/target/
+# IDE settings
+.classpath
+.project
+.settings/
+# Spring Boot help file
+HELP.md
+
+# --- Maven ---
+# We keep the wrapper jar/properties so others can run it!
+# But we ignore logs
+*.log
+
+# --- IDEs (VS Code, IntelliJ) ---
+.vscode/
+.idea/
+*.iml
+
+# --- OS System Files ---
+.DS_Store
+Thumbs.db
+
+# --- Custom Tools ---
+# Don't upload the downloaded Maven binary folder
+tools/
