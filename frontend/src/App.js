@@ -15,6 +15,7 @@ function App() {
 
     // Use environment variable for API URL, or default to localhost
     const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api/tasks';
+    console.log("DEBUG: Current API_URL is:", API_URL);
 
     // --- API Functions ---
 
