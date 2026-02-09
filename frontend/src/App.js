@@ -19,7 +19,7 @@ function App() {
     // useEffect runs once when the page loads
     useEffect(() => {
         fetchTasks();
-    }, []);
+    }, [fetchTasks]);
 
     // --- API Functions ---
 
