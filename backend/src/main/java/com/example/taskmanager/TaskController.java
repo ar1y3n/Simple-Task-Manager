@@ -8,7 +8,7 @@ import java.util.List;
 // @RestController tells Spring this class handles web requests
 // @CrossOrigin tells Spring to allow requests from our React app (running on localhost:3000)
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/tasks") // All URLs in this class start with /api/tasks
 public class TaskController {
 
